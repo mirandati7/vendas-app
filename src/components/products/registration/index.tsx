@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Layout, Input} from "components";
+import { useProductService } from "app/services";
+import { Product } from "app/models/products";
 
 export const ProductRegistration: React.FC = () => {
+
+    const service = useProductService();
+    const [id, setId] = useState<number>()
+    const [created, setCreated] = useState<string>('')
 
     const [sku, setSku] = useState<string>('')
     const [price, setPrice] = useState<string>('')
@@ -9,14 +15,40 @@ export const ProductRegistration: React.FC = () => {
     const [description, setDescription] = useState<string>('')
 
     const submit = () => {
-        const product = {
-            sku, price ,name ,description
+        const product: Product = {
+            sku,
+            price: parseFloat(price),
+            name,
+            description
         }
-        console.log(product)
+        service.save(product).then( productResponse => {
+            setId(productResponse.id);
+            if (productResponse.created != undefined) 
+                setCreated(productResponse.created);
+        });
     }
 
     return (
       <Layout title="Cadastro de Produtos">
+            {id &&
+                <div className="columns">
+                    <Input id="inputId" 
+                        label="Código: " 
+                        value={id}
+                        columnClasses="is-half"
+                        disabled
+                        />
+                    
+                    <Input id="inputCreated" 
+                        label="Data Cadastro:" 
+                        value={created}
+                        columnClasses="is-half"
+                        disabled
+                        />
+
+                </div>
+
+            }
             <div className="columns">
                 <Input id="inputSku" 
                        label="SKU: *" 
@@ -34,7 +66,7 @@ export const ProductRegistration: React.FC = () => {
         
             <div className="columns">
                 <Input id="inputName" 
-                       label="Preço: *" 
+                       label="Nome: *" 
                        columnClasses="is-full"
                        onChange={setName} 
                        placeholder="Digite o Nome do produto"/>
