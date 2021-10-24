@@ -18,27 +18,26 @@ export const ProductRegistration: React.FC = () => {
     return (
       <Layout title="Cadastro de Produtos">
             <div className="columns">
-                <Input label="SKU: *" columnClasses="is-half" onChange={setSku} />
-     
-                <div className="field is-half column">
-                    <label className="label" htmlFor="inputPrice">Preço *</label>
-                    <div className="control">
-                        <input  className="input" value={price}
-                        id="inputPrice" onChange={event => setPrice(event.target.value) }
-                        placeholder="Digite o Preço do produto"/>
-                    </div>
-                </div>
+                <Input id="inputSku" 
+                       label="SKU: *" 
+                       columnClasses="is-half"
+                       onChange={setSku} 
+                       placeholder="Digite o SKU do produto"/>
+                
+                <Input id="inputPrice" 
+                       label="Preço: *" 
+                       columnClasses="is-half"
+                       onChange={setPrice} 
+                       placeholder="Digite o Preço do produto"/>
+
             </div>
         
             <div className="columns">
-                <div className="field column is-full">
-                    <label className="label" htmlFor="inputName">Nome *</label>
-                    <div className="control">
-                        <input  className="input" value={name}
-                        id="inputName" onChange={event => setName(event.target.value) }
-                        placeholder="Digite o Nome do produto"/>
-                    </div>
-                </div>
+                <Input id="inputName" 
+                       label="Preço: *" 
+                       columnClasses="is-full"
+                       onChange={setName} 
+                       placeholder="Digite o Nome do produto"/>
             </div>
 
             <div className="columns">
