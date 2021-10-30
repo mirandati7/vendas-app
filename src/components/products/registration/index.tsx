@@ -15,18 +15,27 @@ export const ProductRegistration: React.FC = () => {
     const [description, setDescription] = useState<string>('')
 
     const submit = () => {
+      
         const product: Product = {
+            id,
             sku,
             price: parseFloat(price),
             name,
             description
         }
-        service.save(product).then( productResponse => {
-            setId(productResponse.id);
-            if (productResponse.created != undefined) 
-                setCreated(productResponse.created);
-        });
+
+        if (id){
+            service.update(product).then(response => console.log("atualizado"));
+        } else {
+            service.save(product).then( productResponse => {
+                setId(productResponse.id);
+                if (productResponse.created != undefined) 
+                    setCreated(productResponse.created);
+            });
+        }
+ 
     }
+
 
     return (
       <Layout title="Cadastro de Produtos">
@@ -86,7 +95,9 @@ export const ProductRegistration: React.FC = () => {
 
             <div className="field is-grouped">
                 <div className="control">
-                    <button className="button is-link" onClick={submit}> Salvar</button>
+                    <button className="button is-link" onClick={submit}> 
+                        { id ? 'Atualizar'  : 'Salvar' }
+                    </button>
                 </div>
                 <div className="control">
                     <button className="button is-light"> Voltar</button>
